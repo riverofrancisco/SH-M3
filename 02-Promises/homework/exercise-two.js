@@ -185,8 +185,8 @@ function problemE () {
     // tu código aquí
     return new Promise(function(resolve, reject) {
       fs.writeFile(filename, str, (err) => {
-        if(err) reject(err);
-        else resolve(filename)})
+        if(err) return reject(err);
+        resolve(filename)})
     } )
   }
 
