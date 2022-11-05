@@ -33,87 +33,15 @@ console.log(urlnames);//para chequear
 
 http.createServer(function(req,res) {
   console.log('URL', req.url); 
-  let counter = 0; 
-    if(req.url === '/' + urlnames[counter]){
-            res.writeHead(200, {'Content-Type': 'image/jpg' })
-            //buscar imagen y guardarla -> 
-            //buscar
-            const filename = './images/' + filenames[counter]; 
-            fs.readFile(filename, (err, data) => {
-                    if (err) {res.end('File not found.')}
-                    else {return res.end(data)};
-            });
-    }//0
- 
- /*    if (req.url === '/' + urlnames[counter+1]){
-        res.writeHead(200, {'Content-Type': 'image/jpg' })
-        //buscar imagen y guardarla -> 
-        //buscar
-        const filename = './images/' + filenames[counter]; 
-        fs.readFile(filename, (err, data) => {
-                if (err) {res.end('File not found.')}
-                else {return res.end(data)};
-        });
-    }//1
-    counter++;
-    if (req.url === '/' + urlnames[counter]){
-        res.writeHead(200, {'Content-Type': 'image/jpg' })
-        //buscar imagen y guardarla -> 
-        //buscar
-        const filename = './images/' + filenames[counter];
-        fs.readFile(filename, (err, data) => {
-                if (err) {res.end('File not found.')}
-                else {return res.end(data)};
-        });
-    }//2
-    counter++;
-    if (req.url === '/' + urlnames[counter]){
-        res.writeHead(200, {'Content-Type': 'image/jpg' })
-        //buscar imagen y guardarla -> 
-        //buscar
-        const filename = './images/' + filenames[counter];
-        counter++; 
-        fs.readFile(filename, (err, data) => {
-                if (err) {res.end('File not found.')}
-                else {return res.end(data)};
-        });
-    }//3
-    counter++;
-    if (req.url === '/' + urlnames[counter]){
-        res.writeHead(200, {'Content-Type': 'image/jpg' })
-        //buscar imagen y guardarla -> 
-        //buscar
-        const filename = './images/' + filenames[counter];
-        fs.readFile(filename, (err, data) => {
-                if (err) {res.end('File not found.')}
-                else {return res.end(data)};
-        });
-    }//4
-    counter++;
-    if (req.url === '/' + urlnames[counter]){
-        res.writeHead(200, {'Content-Type': 'image/jpg' })
-        //buscar imagen y guardarla -> 
-        //buscar
-        const filename = './images/' + filenames[counter];
-        fs.readFile(filename, (err, data) => {
-                if (err) {res.end('File not found.')}
-                else {return res.end(data)};
-        });
-    }//5
-    counter++;
-    if (req.url === '/' + urlnames[counter]){
-        res.writeHead(200, {'Content-Type': 'image/jpg' })
-        //buscar imagen y guardarla -> 
-        //buscar
-        const filename = './images/' + filenames[counter];
-        fs.readFile(filename, (err, data) => {
-                if (err) {res.end('File not found.')}
-                else {return res.end(data)};
-        });
-    }//6
-   */
-  else {   
-        res.writeHead(200, { 'Content-Type': 'text/plain' });
-        res.end('File not found.');
-  }
+    fs.readFile(`${__dirname}/images/${req.url}.jpg`, (err , data) => {
+        if (err) {
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            res.end('File not found.');
+        }
+        else {
+            res.writeHead(200, { 'Content-Type': 'image/jpg' });
+            res.end(data);
+        }
+    })
+
 }).listen(1337,'127.0.0.1', ()=> {console.log('listening port 1337')});
