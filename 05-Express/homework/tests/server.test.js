@@ -222,7 +222,7 @@ describe('Request', () => {
           });
     });
 
-    it('Si el Juan tiene Post a su nombre, los devuelve', () => {
+    it('Si Juan tiene Post a su nombre, los devuelve', () => {
       const posts = [
         { author: 'Juan', title: 'title', contents: 'hi there' },
         { author: 'Martina', title: 'title', contents: 'hello' },
