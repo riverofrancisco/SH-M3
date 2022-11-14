@@ -8,7 +8,7 @@ const STATUS_BODY_ERROR = 404;
 
 // This array of posts persists in memory across requests. Feel free
 // to change this to a let binding if you need to reassign it.
-const posts = [];
+let posts = [];
 
 const server = express();
 // to enable parsing of json bodies for post requests
@@ -126,16 +126,27 @@ server.get('/posts/:author', (req,res)=> {
  })
 
  server.delete('/posts', (req,res) => {
-    let {id} = req.body;
-    let post = posts.find((post) => post.id === parseInt(id));
+    let { id } = req.body;
+    let post = posts.find(p => p.id === parseInt(id));
+    console.log(post);
     if(!id || !post){
-        return res.status(STATUS_USER_ERROR).json({error: "Mensaje de error"})
+       return res.status(STATUS_USER_ERROR).json({ error: "Mensaje de error" })
     }
 
-    posts = posts.filter(post => post.id !== parseInt(id));
+    posts = posts.filter(p => p.id !== parseInt(id));
     return res.json({ success: true });
  })
 
- 
+ server.delete('/author', (req,res) => {
+    let { author } = req.body;
+    const author_found = posts.find(p => p.author.includes(author));
+    if(!author_found){
+        return res.status(STATUS_USER_ERROR).json({error: "No existe el autor indicado"})
+    }
+
+    let postsdeleted = posts.filter(p => p.author.includes(author))
+    posts = posts.filter(post => !post.author.includes(author));
+    return res.json(postsdeleted);
+ })
 
 module.exports = { posts, server };
