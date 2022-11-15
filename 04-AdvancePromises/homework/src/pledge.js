@@ -25,8 +25,10 @@ this._handlerGroups = [];
 this.then = (sH, eH) => {
     if (typeof sH !== 'function') sH = false;
     if (typeof eH !== 'function') eH = false; 
-    this._handlerGroups.push({successCb: sH, errorCb: eH});
+    const downstreamPromise = new $Promise(function(){})
+    this._handlerGroups.push({successCb: sH, errorCb: eH, downstreamPromise});
     if (this._state !== 'pending') this.callHandlers();
+    return downstreamPromise;
 }
 
 executor(this._internalResolve, this._internalReject);
@@ -39,6 +41,9 @@ $Promise.prototype.callHandlers = function(){
     while(this._handlerGroups.length > 0){
         let current = this._handlerGroups.shift() //tengo mi primer elemento.
         if(this._state === 'fulfilled'){
+            if(!current.successCb){
+                current.downstreamPromise._internalResolve(this._value);
+            }
             current.successCb && current.successCb(this._value);
         } else if (this._state === 'rejected') {
             current.errorCb && current.errorCb(this._value);
